@@ -6,10 +6,22 @@ app.use(express.json());
 
 app.use(express.static("assets"));
 
+
+
 app.use("/",(req,res,next)=>{
   console.log("meth: ", req.method);
   console.log("url: ", req.url);
+
+  res.on('finish', () => {
+    console.log("status:", res.statusCode);
+  });
   next();
+})
+
+app.use((req,res,next)=>{
+  const error = new Error("The requested resource couldn't be found.");
+  error.statusCode = 404;
+  console.log(error.message);
 })
 
 // For testing purposes, GET /
@@ -29,6 +41,7 @@ app.post('/test-json', (req, res, next) => {
 app.get('/test-error', async (req, res) => {
   throw new Error("Hello World!")
 });
+
 
 const port = 5000;
 app.listen(port, () => console.log('Server is listening on port', port));
