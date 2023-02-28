@@ -1,7 +1,16 @@
 const express = require('express');
 const app = express();
+require('express-async-errors');
 
 app.use(express.json());
+
+app.use(express.static("assets"));
+
+app.use("/",(req,res,next)=>{
+  console.log("meth: ", req.method);
+  console.log("url: ", req.url);
+  next();
+})
 
 // For testing purposes, GET /
 app.get('/', (req, res) => {
