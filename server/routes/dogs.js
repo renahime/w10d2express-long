@@ -1,4 +1,7 @@
 const express = require('express');
+const foodsRouter = require('./dog-foods');
+
+
 
 // ------------------------------  SERVER DATA ------------------------------
 
@@ -89,6 +92,9 @@ const deleteDog = (req, res) => {
 // Your code here
 const router = express.Router();
 
+//We do this to check the valid dogId BEFORE we even go to the /foods path!
+router.use('/:dogId', validateDogId, foodsRouter);
+
 router.get('/',  (req, res) => getAllDogs(req, res));
 
 router.get('/:dogId', validateDogId, (req, res) => getDogById(req, res));
@@ -97,6 +103,12 @@ router.post('/' , validateDogInfo, (req, res) => createDog(req, res));
 
 router.put('/:dogId', validateDogId, (req, res) => updateDog(req, res));
 
+//foodsRouter.get('/:dogId/', validateDogId,)
+
+//foodsRouter.get('/foods', (req,res) => getFoodsByDogId(req,res));
+
+
 router.delete('/:dogId', validateDogId,(req, res) => deleteDog(req, res));
+
 
 module.exports = router;
