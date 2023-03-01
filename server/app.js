@@ -1,11 +1,18 @@
 const express = require('express');
+const router = express.Router();
 const app = express();
+const dogs = require('./routes/dogs');
+
 require('express-async-errors');
 
 app.use(express.json());
-
 app.use(express.static("assets"));
+app.use("/dogs" , dogs);
 
+
+// router.get('/dogs' , (req, res) => {
+//   res.send("test");
+// })
 
 
 app.use("/",(req,res,next)=>{
